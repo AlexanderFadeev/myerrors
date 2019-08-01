@@ -1,3 +1,3 @@
 # myerrors
 
-Helper package to unify **pkg/errors** and go 1.13 **errors** in convenient way.
+Helper package which wraps **github.com/pkg/errors** package to support new interfaces in go 1.13 **errors**.
