@@ -8,8 +8,6 @@ type wrapper struct {
 	error
 }
 
-var _ Wrapper = &wrapper{}
-
 type causer interface {
 	Cause() error
 }

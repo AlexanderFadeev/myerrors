@@ -6,6 +6,8 @@ import (
 	"testing"
 )
 
+var _ Wrapper = &wrapper{}
+
 func TestWrap(t *testing.T) {
 	err := errors.New("1")
 	err = Wrap(err, "2")
