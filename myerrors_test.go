@@ -32,3 +32,29 @@ func TestWrap(t *testing.T) {
 		assert.Equal(t, "1", u.Error())
 	}
 }
+
+func TestWrapNil(t *testing.T) {
+	var err error
+	err = Wrap(err, "x")
+
+	assert.Nil(t, err)
+}
+
+func TestWrapfNil(t *testing.T) {
+	var err error
+	err = Wrapf(err, "%s", "x")
+
+	assert.Nil(t, err)
+}
+
+func TestWithStackNil(t *testing.T) {
+	var err error
+	err = WithStack(err)
+
+	assert.Nil(t, err)
+}
+
+func TestErrorf(t *testing.T) {
+	err := Errorf("%s", "x")
+	assert.Equal(t, "x", err.Error())
+}

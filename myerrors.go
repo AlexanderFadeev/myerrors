@@ -11,9 +11,25 @@ func Errorf(format string, args ...interface{}) error {
 }
 
 func Wrap(err error, msg string) error {
+	if err == nil {
+		return nil
+	}
+
 	return &wrapper{pkgerrors.Wrap(err, msg)}
 }
 
 func Wrapf(err error, format string, args ...interface{}) error {
+	if err == nil {
+		return nil
+	}
+
 	return &wrapper{pkgerrors.Wrapf(err, format, args...)}
+}
+
+func WithStack(err error) error {
+	if err == nil {
+		return nil
+	}
+
+	return &wrapper{pkgerrors.WithStack(err)}
 }

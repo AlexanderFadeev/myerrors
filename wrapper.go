@@ -14,9 +14,7 @@ type causer interface {
 
 func (w *wrapper) Unwrap() error {
 	res := w.error.(causer).Cause()
-	if res == nil {
-		return nil
-	}
+	// res is always != nil
 
 	if _, ok := res.(Wrapper); ok {
 		return res

@@ -36,3 +36,14 @@ func TestStackTraceWrapNil(t *testing.T) {
 
 	assert.Equal(t, "stack_test.go:31", fileLine)
 }
+
+func TestWithStack(t *testing.T) {
+	err := errors.New("1")
+	err = WithStack(err)
+
+	trace := StackTrace(err)
+	frame := trace[1]
+	fileLine := fmt.Sprintf("%s:%d", frame, frame)
+
+	assert.Equal(t, "stack_test.go:42", fileLine)
+}
