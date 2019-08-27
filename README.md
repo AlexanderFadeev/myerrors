@@ -5,3 +5,4 @@ Package which helps me to deal with errors:
 - Adds **func StackTrace(error)**
 - Adds **Handler** interface which is used in my packages
 - Adds **func Merge(error, error)**
+- Adds functions to handle errors in **defer**
