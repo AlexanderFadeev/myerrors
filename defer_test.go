@@ -87,3 +87,29 @@ func TestCalldNil(t *testing.T) {
 		assert.Equal(t, "Y", err.Error())
 	}
 }
+
+func TestCallWrapd(t *testing.T) {
+	err := func() (err error) {
+		defer CallWrapd(&err, func() error {
+			return New("X")
+		}, "Y")
+		return
+	}()
+
+	if assert.NotNil(t, err) {
+		assert.Equal(t, "Y: X", err.Error())
+	}
+}
+
+func TestCallWrapfd(t *testing.T) {
+	err := func() (err error) {
+		defer CallWrapfd(&err, func() error {
+			return New("X")
+		}, "%s", "Y")
+		return
+	}()
+
+	if assert.NotNil(t, err) {
+		assert.Equal(t, "Y: X", err.Error())
+	}
+}
