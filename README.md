@@ -1,4 +1,12 @@
 # OmniErrors - Simple Error Handling
-- Utilizes best of **github.com/pkg/errors** and **errors**
-- Adds **func GetStackTrace(error) StackTrace**
-- Adds **func First(...error) error**
+- No stack traces
+- No multierrors
+    - Provides simple implementation of `Join` which does not actually combine errors but returns first non-nil one
+- List of functions:
+    - `New(msg string) error`
+    - `Errorf(format string, args ...any) error`
+    - `Wrap(err error, message string) error`
+    - `Wrapf(err error, format string, args ...any)`
+    - `Join(errs ...error) error`
+    - `Is(err, target error) bool`
+    - `As(err, target error) bool`

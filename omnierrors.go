@@ -1,39 +1,38 @@
 package omnierrors
 
 import (
-	stderrors "errors"
-
-	pkgerrors "github.com/pkg/errors"
+	"errors"
+	"fmt"
 )
 
-type (
-	StackTrace = pkgerrors.StackTrace
-)
-
-var (
-	New       = pkgerrors.New
-	Errorf    = pkgerrors.Errorf
-	Wrap      = pkgerrors.Wrap
-	Wrapf     = pkgerrors.Wrapf
-	WithStack = pkgerrors.WithStack
-
-	Is     = stderrors.Is
-	As     = stderrors.As
-	Join   = stderrors.Join
-	Unwrap = stderrors.Unwrap
-)
-
-// Special error type with no stack trace info
-type Sentinel string
-
-func (s Sentinel) Error() string {
-	return string(s)
+func New(msg string) error {
+	return errors.New(msg)
 }
 
-// Unlike Join does not combine errors.
+func Errorf(format string, args ...any) error {
+	return fmt.Errorf(format, args...)
+}
+
+func Is(err error, target error) bool {
+	return errors.Is(err, target)
+}
+
+func As(err error, target error) bool {
+	return errors.As(err, target)
+}
+
+func Wrap(err error, msg string) error {
+	return Errorf("%s: %w", msg, err)
+}
+
+func Wrapf(err error, format string, args ...any) error {
+	return Wrap(err, fmt.Sprintf(format, args...))
+}
+
+// Unlike errors.Join does not combine errors.
 // Returns first non-nil error if present.
 // Returns nil othwerwise.
-func First(errs ...error) error {
+func Join(errs ...error) error {
 	for _, err := range errs {
 		if err != nil {
 			return err
@@ -41,24 +40,4 @@ func First(errs ...error) error {
 	}
 
 	return nil
-}
-
-func GetStackTrace(err error) StackTrace {
-	type tracer interface {
-		StackTrace() StackTrace
-	}
-
-	var deepest tracer
-
-	for err != nil {
-		if tracer, ok := err.(tracer); ok {
-			deepest = tracer
-		}
-		err = Unwrap(err)
-	}
-
-	if deepest == nil {
-		return nil
-	}
-	return deepest.StackTrace()
 }
