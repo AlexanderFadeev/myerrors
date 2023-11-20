@@ -47,3 +47,15 @@ func TestJoinOneTwo(t *testing.T) {
 	err := omnierrors.Join(errTest1, errTest2)
 	assert.Equal(t, errTest1, err)
 }
+
+func TestWrap(t *testing.T) {
+	t.Parallel()
+	err := omnierrors.Wrap(errTest1, "wrapped")
+	assert.Equal(t, "wrapped: 1", err.Error())
+}
+
+func TestWrapNil(t *testing.T) {
+	t.Parallel()
+	err := omnierrors.Wrap(nil, "wrapped")
+	assert.Nil(t, err)
+}

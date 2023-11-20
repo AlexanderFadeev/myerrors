@@ -17,15 +17,23 @@ func Is(err error, target error) bool {
 	return errors.Is(err, target)
 }
 
-func As(err error, target error) bool {
+func As(err error, target any) bool {
 	return errors.As(err, target)
 }
 
 func Wrap(err error, msg string) error {
+	if err == nil {
+		return nil
+	}
+
 	return Errorf("%s: %w", msg, err)
 }
 
 func Wrapf(err error, format string, args ...any) error {
+	if err == nil {
+		return nil
+	}
+
 	return Wrap(err, fmt.Sprintf(format, args...))
 }
 
